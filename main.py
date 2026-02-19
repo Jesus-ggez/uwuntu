@@ -1,0 +1,120 @@
+vim_template: str = """set clipboard=unnamed
+set foldmethod=indent
+set background=dark
+" set relativenumber
+set encoding=utf-8
+set numberwidth=1
+set termguicolors
+set shiftwidth=4
+set laststatus=2
+set nocursorline
+set autoindent
+set tabstop=4
+set showmatch
+set mouse=a
+set showcmd
+set nowrap
+"set number
+"set ruler
+set list
+set sw=4
+
+let NERDTreeIgnore = ['__init__.py', '__pycache__']
+
+
+" letters
+inoremap --- <C-o>ciw -><Right>
+inoremap ==? <C-o>ciw =><Right>
+inoremap ::: <C-o>ciw<><Right>
+inoremap ::. <C-o>ciw<></><Right>
+inoremap //// <C-o>ciw\\ <Right>
+
+
+
+" Plugs
+call plug#begin('~/.vim/plugged')
+
+" Cierre llaves auto
+Plug 'LunarWatcher/auto-pairs'
+Plug 'sheerun/vim-polyglot'
+Plug 'Yggdroot/indentLine'
+
+" COC
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'rust-lang/rust.vim'
+
+" Nerdtree
+Plug 'preservim/nerdtree'
+
+call plug#end()
+
+
+" Style
+let g:indentLine_chart_list = ['|', ':', '|', '^']
+colorscheme sorbet
+nnoremap <C-space> <C-w>
+
+
+
+" auto complete use
+inoremap <silent><expr> <Tab>
+      \ coc#pum#visible() ? coc#_select_confirm() :
+      \ "\<Tab>"
+
+" Enter confirma si el menú está visible, sino inserta un salto de línea normal
+inoremap <silent><expr> <CR>
+      \ coc#pum#visible() ? coc#pum#confirm() :
+      \ "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+
+" Rust
+syntax enable
+filetype plugin indent on
+let g:rustfmt_autosave = 1
+
+" NerdTree
+autocmd VimEnter * NERDTree
+let g:NERDTreeWinSize = 15
+
+
+if exists('g:did_coc_loaded')
+      let g:rust_analyzer = {
+                        \ 'procMacro': { 'enable': v:false },
+                        \ 'diagnostics': { 'disabled': ['unresolved-proc-macro' ] }
+                        \}
+endif
+
+" Javascri
+augroup ForceInden
+    autocmd!
+    autocmd BufEnter * setlocal tabstop=4 shiftwidth=4 expandtab softtabstop=4
+    autocmd FileType * setlocal tabstop=4 shiftwidth=4 expandtab softtabstop=4
+
+augroup END
+
+
+"""
+
+bashrc_template: str = """
+alias tls="clear && tree -a -C -I \".venv|.git\" -L 3"
+alias cls="clear && ls --ignore='__init__.py'"
+alias update="apt update && apt upgrade"
+alias tool="vim ~/.bashrc"
+alias ins="apt install"
+alias re="exec bash"
+alias del="rm -rf"
+alias xx="exit"
+alias "....."="cd ../../../.."
+alias "...."="cd ../../.."
+alias "..."="cd ../.."
+alias ".."="cd .."
+
+update
+"""
+
+with open('.vimrc', 'r') as vim:
+    vim.write(vim_template)
+
+with open('.bashrc', 'a') as bash:
+    vim.write(bashrc_template)
+
