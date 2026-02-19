@@ -1,4 +1,4 @@
-vim_template: str = """set clipboard=unnamed
+set clipboard=unnamed
 set foldmethod=indent
 set background=dark
 " set relativenumber
@@ -92,10 +92,7 @@ augroup ForceInden
 
 augroup END
 
-
-"""
-
-bashrc_template: str = """
+#  // ...........
 alias tls="clear && tree -a -C -I \".venv|.git\" -L 3"
 alias cls="clear && ls --ignore='__init__.py'"
 alias update="apt update && apt upgrade"
@@ -110,11 +107,3 @@ alias "..."="cd ../.."
 alias ".."="cd .."
 
 update
-"""
-
-with open('.vimrc', 'r') as vim:
-    vim.write(vim_template)
-
-with open('.bashrc', 'a') as bash:
-    vim.write(bashrc_template)
-
